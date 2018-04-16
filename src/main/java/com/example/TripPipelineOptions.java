@@ -31,12 +31,16 @@ public interface TripPipelineOptions extends DataflowPipelineOptions {
     String getFilePattern();
     void setFilePattern(String value);
 
+    /*
+    // Note: the name of the output table is generated in the pipeline code.
+    //
     @Description("BigQuery table for flight affinities "
        + "<project_id>:<dataset_id>.<table_id>. The dataset must already exist.")
     @Default.String("wwoo-gcp:trips.flight_affinities")
     @Validation.Required
     String getFlightAffinitiesTable();
     void setFlightAffinitiesTable(String value);
+    */
 
     @Description("BigQuery table for lifetime passenger points.")
     @Default.String("wwoo-gcp:tripes.passenger_points")
