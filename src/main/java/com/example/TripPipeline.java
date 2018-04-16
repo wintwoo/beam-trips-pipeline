@@ -173,7 +173,7 @@ public class TripPipeline {
       return kvs
         .apply("ExtractPoints", ParDo.of(new ExtractPointsDoFn()))
         .apply("CustomerTotalPoints", Sum.<String>integersPerKey())
-        .apply("CustomerPointsToTableRow", MapElements.via(
+        .apply("CustomerPointsToKV", MapElements.via(
           new SimpleFunction<KV<String, Integer>, FlightPoints>() {
             public FlightPoints apply(KV<String, Integer> v) {
               LOG.info("PointsToTable: " + v.getKey() + " " + v.getValue());
@@ -209,8 +209,8 @@ public class TripPipeline {
       .apply("ParseRecords", ParDo.of(new ParseTripRecordDoFn()))
 
       //
-      // Apply this transform instead windowing by timestamp in the data
-      // withAllowedTimeStampSkew is deprecated
+      // Apply this transform instead to window by timestamp in the data, rather than now
+      // Note: withAllowedTimeStampSkew is deprecated.
       //
       // .apply("AddTimestamps", WithTimestamps.<TripRecord>of(x -> Instant.parse(x.getDate()))
       //    .withAllowedTimestampSkew(Duration.millis(Long.MAX_VALUE)))
