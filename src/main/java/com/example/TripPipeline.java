@@ -102,6 +102,7 @@ public class TripPipeline {
         c.output(tripRecord);
       }
       catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+	numParseErrors.inc();
         LOG.info("Parse error on " + c.element() + ", " + e.getMessage());
       }
     }
